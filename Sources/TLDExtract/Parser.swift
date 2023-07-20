@@ -4,9 +4,7 @@
 //
 
 import Foundation
-#if SWIFT_PACKAGE
-import Punycode
-#endif
+//import Punycode
 
 internal class PSLParser {
 

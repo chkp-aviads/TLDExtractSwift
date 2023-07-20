@@ -10,6 +10,7 @@ internal extension Bundle {
     }
 
     static var current: Bundle {
+        //return Bundle.main
         return Bundle.init(for: ClassForFramework.self)
     }
 }

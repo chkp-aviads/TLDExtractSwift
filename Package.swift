@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.6
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -10,17 +10,17 @@ let package = Package(
             name: "TLDExtract",
             targets: ["TLDExtract"])
     ],
-    dependencies: [
-        .package(url: "https://github.com/gumob/PunycodeSwift.git", .branch("master"))
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "TLDExtract",
-            dependencies: ["Punnycode"],
-            path: "Source"),
+            dependencies: [],
+            resources: [
+                .copy("Resources/public_suffix_list.dat")
+            ]
+        ),
         .testTarget(
-            name: "TLDExtractSwiftTests",
-            dependencies: ["TLDExtract"],
-            path: "Tests")
+            name: "TLDExtractTests",
+            dependencies: ["TLDExtract"])
     ]
 )

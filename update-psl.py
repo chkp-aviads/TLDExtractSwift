@@ -9,7 +9,7 @@ if __name__ == '__main__':
 
     # Variables
     src_dir = os.path.dirname(os.path.abspath(__file__))
-    psl_file = os.path.abspath(os.path.join(src_dir, 'Resources/public_suffix_list.dat'))
+    psl_file = os.path.abspath(os.path.join(src_dir, 'Sources/TLDExtract/Resources/public_suffix_list.dat'))
     psl_url = 'https://publicsuffix.org/list/public_suffix_list.dat'
 
     try:

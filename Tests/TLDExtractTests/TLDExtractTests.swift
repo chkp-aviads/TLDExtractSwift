@@ -15,7 +15,7 @@ class TLDExtractTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        tldExtractor = try? TLDExtract(useFrozenData: false)
+        tldExtractor = try? TLDExtract(useFrozenData: true)
     }
 
     func testMeasureSetupTime() {
