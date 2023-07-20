@@ -1,0 +1,16 @@
+name: Update PSL
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-psl:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Update PSL
+      run: python update-psl.py
+    - name: Create pull request to commit updated psl
+      uses: peter-evans/create-pull-request@v4
