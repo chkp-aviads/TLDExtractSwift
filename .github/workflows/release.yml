@@ -21,4 +21,5 @@ jobs:
     - name: Create GH Release
       uses: softprops/action-gh-release@v1
       with:
+        tag_name: ${{ steps.version.outputs.version }}
         token: ${{ secrets.GITHUB_TOKEN }}
