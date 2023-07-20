@@ -15,4 +15,7 @@ jobs:
     - name: Update PSL
       run: python update-psl.py
     - name: Create pull request to commit updated psl
-      uses: peter-evans/create-pull-request@v4
+      uses: peter-evans/create-pull-request@v5
+      with:
+        commit-message: Update PSL
+        title: '[Automatic] Update PSL'
