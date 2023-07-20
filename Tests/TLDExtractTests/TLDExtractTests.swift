@@ -23,6 +23,11 @@ class TLDExtractTests: XCTestCase {
             _ = TLDExtract()
         }
     }
+    
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    func testFetchLatestPSL() async throws {
+        try await TLDExtract().fetchLatestPSL()
+    }
 
     func testPSLParser() {
         XCTAssertThrowsError(try PSLParser().parse(data: Data()))
