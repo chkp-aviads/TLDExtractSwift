@@ -5,9 +5,15 @@ name: Swift
 
 on:
   push:
-    branches: [ "master" ]
+    paths:
+      - ".github/workflows/**"
+      - "**/*.swift"
+      - "**/*.dat"
   pull_request:
-    branches: [ "master" ]
+    paths:
+      - ".github/workflows/**"
+      - "**/*.swift"
+      - "**/*.dat"
 
 jobs:
   build:
