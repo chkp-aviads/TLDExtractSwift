@@ -1,30 +1,25 @@
 # TLDExtract
-<code>TLDExtract</code> is a pure Swift library to allows you to get the public suffix of a domain name using [the Public Suffix List](http://www.publicsuffix.org). You can find alternatives for other languages at [publicsuffix.org](https://publicsuffix.org/learn/).<br/>
-
-## What are domains?
-
-Domain names are the unique, human-readable Internet addresses of websites. They are made up of three parts: a top-level domain (a.k.a. TLD), a second-level domain name, and an optional subdomain.
 
 <img src="Metadata/domain-diagram.svg" alt="drawing" width="480" style="width:100%; max-width: 480px;"/>
 
-## Feature
+<code>TLDExtract</code> is a Swift package to allows you extract
+- root domain
+- top level domain (TLD)
+- second level domain
+- subdomain
 
-- Extract root domain, top level domain, second level domain, subdomain from url and hostname
-- Foundation URL and String support
-- IDNA support
-- Multi platform support
+from a `URL` or a hostname `String`.
 
-## Requirements
+This is a fork to Kojiro Futamura's fantastic work on [gumob/TLDExtractSwift](https://github.com/gumob/TLDExtractSwift).
 
-- iOS 9.3 or later
-- macOS 10.12 or later
-- tvOS 10.2 or later
-- Swift 4.2 or later
-- Python 2.7 or Python 3
+## Main differences to the original repo
+- **Always up-to-date**
+  - leveraging GitHub actions to regularly create new package versions bundling the latest [Public Suffix List](http://www.publicsuffix.org) (PSL) - perfect for offline use
+  - modern `async` function to invoke a network request fetching the latest PSL from the remote server ad-hoc.
+- **Swift Package Manager** (SPM) as the **exclusive distribution channel**
+- No package dependencies
 
-## Installation
-
-// TODO
+If you want to consume the library through CocoaPods or Carthage then please go ahead and use the [original repository](https://github.com/gumob/TLDExtractSwift).
 
 ## Usage
 
@@ -116,6 +111,17 @@ print(result.secondLevelDomain) // Optional("寿司")
 print(result.subDomain)         // Optional("www.ラーメン")
 ```
 
-## Copyright
+### Ad-hoc fetching of PSL
 
-TLDExtract is released under MIT license, which means you can modify it, redistribute it or use it however you like.
+This repository publishes new versions with the latest PSL regularly. This should be sufficient for most app developers assuming you are [updating to the latest version]( https://blog.eidinger.info/how-to-catch-up-with-outdated-dependencies-in-your-swift-package-with-github-actions-141d3d06b1d0).
+
+Nevertheless, an `async` function allows to invoke a network request fetching the latest PSL from the remote server ad-hoc. 
+
+```swift
+import TLDExtract
+
+let extractor = TLDExtract()
+try await extractor.fetchLatestPSL()
+```
+
+**Requires network connectivity!**

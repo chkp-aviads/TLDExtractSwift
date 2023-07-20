@@ -8,9 +8,30 @@
 
 import Foundation
 
-/// Class to extract root domain, top level domain (TLD), second level domain or subdomain from a `URL` or hostname `String`
-///  This is possible thanks to a bundled version of the [Public Suffix List](https://publicsuffix.org/)
-///  You can also fetch the most up-to-date PSL with async function ``fetchLatestPSL``
+/**
+ Extract root domain, top level domain (TLD), second level domain or subdomain from a `URL` or hostname `String`
+ 
+ ```swift
+ import TLDExtract
+
+ let extractor = try! TLDExtract()
+ let hostname: String = "www.ラーメン.寿司.co.jp"
+ guard let result: TLDResult = extractor.parse(hostname) else { return }
+
+ print(result.rootDomain)        // Optional("寿司.co.jp")
+ print(result.topLevelDomain)    // Optional("co.jp")
+ print(result.secondLevelDomain) // Optional("寿司")
+ print(result.subDomain)         // Optional("www.ラーメン")
+ ```
+ 
+ This is possible thanks to a bundled version of the [Public Suffix List](https://publicsuffix.org/)
+
+ You can also fetch the most up-to-date PSL with async function ``fetchLatestPSL``
+ 
+ ```swift
+ try await extractor.fetchLatestPSL()
+ ```
+ */
 public class TLDExtract {
 
     private var tldParser: TLDParser
@@ -45,7 +66,7 @@ public class TLDExtract {
     }
 }
 
-/// Protocol
+/// `URL` and `String` conform to `TLDExtractable`
 public protocol TLDExtractable {
     var hostname: String? { get }
 }
@@ -95,20 +116,6 @@ fileprivate extension String {
     }
 }
 
-/**
- Result structure
- 
- /// EXAMPLE:
- ```swift
- let urlString: String = "https://www.github.com/gumob/TLDExtract"
- guard let result: TLDResult = extractor.parse(urlString) else { return }
-
- print(result.rootDomain)        // Optional("github.com")
- print(result.topLevelDomain)    // Optional("com")
- print(result.secondLevelDomain) // Optional("github")
- print(result.subDomain)         // Optional("www")
- ```
-**/
 public struct TLDResult {
     public let rootDomain: String?
     public let topLevelDomain: String?
