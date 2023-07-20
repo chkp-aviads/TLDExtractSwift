@@ -43,6 +43,7 @@ public class TLDExtract {
         self.tldParser = TLDParser(dataSet: dataSet)
     }
     
+#if !os(Linux)
     /// invoke network request to fetch latest Public Suffix List (PSL) from a remote server ensuring that extractor operates most accurate
     @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public func fetchLatestPSL() async throws {
@@ -51,6 +52,7 @@ public class TLDExtract {
         let dataSet = try PSLParser().parse(data: data)
         self.tldParser = TLDParser(dataSet: dataSet)
     }
+#endif
 
     /// Parameters:
     ///   - host: Hostname to be extracted
