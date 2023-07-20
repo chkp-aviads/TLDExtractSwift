@@ -15,17 +15,16 @@ class TLDExtractTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        tldExtractor = try? TLDExtract(useFrozenData: true)
+        tldExtractor = TLDExtract()
     }
 
     func testMeasureSetupTime() {
         self.measure {
-            _ = try? TLDExtract()
+            _ = TLDExtract()
         }
     }
 
     func testPSLParser() {
-        XCTAssertNoThrow(try TLDExtract())
         XCTAssertThrowsError(try PSLParser().parse(data: Data()))
         XCTAssertThrowsError(try PSLParser().parse(data: nil))
     }

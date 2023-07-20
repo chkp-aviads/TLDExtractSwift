@@ -12,13 +12,13 @@ public class TLDExtract {
 
     private let tldParser: TLDParser
 
-    public init(useFrozenData: Bool = false) throws {
+    public init() {
         let url = Bundle.module.url(forResource: "public_suffix_list", withExtension: "dat")!
 //        let url: URL = Bundle.current.url(
 //                forResource: "public_suffix_list",
 //                withExtension: "dat")!
-        let data: Data = try Data(contentsOf: url)
-        let dataSet = try PSLParser().parse(data: data)
+        let data: Data = try! Data(contentsOf: url)
+        let dataSet = try! PSLParser().parse(data: data)
         self.tldParser = TLDParser(dataSet: dataSet)
     }
 

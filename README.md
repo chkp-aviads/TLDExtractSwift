@@ -1,11 +1,3 @@
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg)](https://github.com/gumob/TLDExtractSwift)
-[![Version](http://img.shields.io/cocoapods/v/TLDExtract.svg)](http://cocoadocs.org/docsets/TLDExtract)
-[![Platform](http://img.shields.io/cocoapods/p/TLDExtract.svg)](http://cocoadocs.org/docsets/TLDExtract)
-[![Build Status](https://travis-ci.com/gumob/TLDExtractSwift.svg?branch=master)](https://travis-ci.com/gumob/TLDExtractSwift)
-[![codecov](https://codecov.io/gh/gumob/TLDExtractSwift/branch/master/graph/badge.svg)](https://codecov.io/gh/gumob/TLDExtractSwift)
-![Language](https://img.shields.io/badge/Language-Swift%204.2-orange.svg)
-![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)
-
 # TLDExtract
 <code>TLDExtract</code> is a pure Swift library to allows you to get the public suffix of a domain name using [the Public Suffix List](http://www.publicsuffix.org). You can find alternatives for other languages at [publicsuffix.org](https://publicsuffix.org/learn/).<br/>
 
@@ -32,52 +24,17 @@ Domain names are the unique, human-readable Internet addresses of websites. They
 
 ## Installation
 
-### Carthage
-
-Add the following to your `Cartfile` and follow [these instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
-
-```
-github "gumob/TLDExtractSwift"          # Latest (Swift 5.0)
-github "gumob/TLDExtractSwift" ~> 2.0   # Swift 5.0
-github "gumob/TLDExtractSwift" ~> 1.0   # Swift 4.2
-```
-
-Do not forget to include Punycode.framework. Otherwise it will fail to build the application.<br/>
-
-<img src="Metadata/carthage-xcode-config.jpg" alt="drawing" width="480" style="width:100%; max-width: 480px;"/>
-
-### CocoaPods
-
-To integrate TLDExtract into your project, add the following to your `Podfile`.
-
-```ruby
-platform :ios, '9.3'
-use_frameworks!
-
-pod 'TLDExtract'             # Latest (Swift 5.0)
-pod 'TLDExtract', '~> 2.0'   # Swift 5.0
-pod 'TLDExtract', '~> 1.0'   # Swift 4.2
-```
+// TODO
 
 ## Usage
 
 ### Initialization
 
-Basic initialization code. Exceptions will not be raised unless [the Public Suffix List on the server](https://publicsuffix.org/list/public_suffix_list.dat) is broken.
 ```swift
 import TLDExtract
 
-let extractor = try! TLDExtract()
+let extractor = TLDExtract()
 ```
-
-A safer initialization code to avoid errors by using the frozen Public Suffix List:<br/>
-```swift
-import TLDExtract
-
-let extractor = try! TLDExtract(useFrozenData: true)
-```
-*The Public Suffix List is updated every time the framework is built. By setting userFrozenData to true, TLDExtract loads data which checked out from the repository.
-
 ### Extraction
 
 #### Passing argument as String
@@ -157,23 +114,6 @@ print(result.rootDomain)        // Optional("www.ラーメン.寿司.co.jp")
 print(result.topLevelDomain)    // Optional("co.jp")
 print(result.secondLevelDomain) // Optional("寿司")
 print(result.subDomain)         // Optional("www.ラーメン")
-```
-
-Encode an unicode url by using [`Punycode`](https://github.com/gumob/Punycode) Framework:
-
-```swift
-import Punycode
-
-let urlString: String = "http://www.ラーメン.寿司.co.jp".idnaEncoded!
-let url: URL = URL(string: urlString)
-print(urlString)                // http://www.xn--4dkp5a8a.xn--sprr0q.co.jp
-
-guard let result: TLDResult = extractor.parse(url) else { return }
-
-print(result.rootDomain)        // Optional("xn--sprr0q.co.jp")
-print(result.topLevelDomain)    // Optional("co.jp")
-print(result.secondLevelDomain) // Optional("xn--sprr0q")
-print(result.subDomain)         // Optional("www.xn--4dkp5a8a")
 ```
 
 ## Copyright
