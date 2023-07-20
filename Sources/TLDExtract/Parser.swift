@@ -4,7 +4,6 @@
 //
 
 import Foundation
-//import Punycode
 
 internal class PSLParser {
 
