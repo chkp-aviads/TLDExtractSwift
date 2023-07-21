@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /**
  Extract root domain, top level domain (TLD), second level domain or subdomain from a `URL` or hostname `String`
@@ -43,16 +46,22 @@ public class TLDExtract {
         self.tldParser = TLDParser(dataSet: dataSet)
     }
     
-#if !os(Linux)
     /// invoke network request to fetch latest Public Suffix List (PSL) from a remote server ensuring that extractor operates most accurate
     @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public func fetchLatestPSL() async throws {
         let url: URL = URL(string: "https://publicsuffix.org/list/public_suffix_list.dat")!
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let data: Data = try await withCheckedThrowingContinuation{ continuation in
+            URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
+                if let data = data {
+                    continuation.resume(returning: data)
+                } else if let error = error {
+                    continuation.resume(throwing: error)
+                }
+            }.resume()
+        }
         let dataSet = try PSLParser().parse(data: data)
         self.tldParser = TLDParser(dataSet: dataSet)
     }
-#endif
 
     /// Parameters:
     ///   - host: Hostname to be extracted
