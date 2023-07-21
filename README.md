@@ -1,4 +1,4 @@
-[![Platform Compatibility](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FMarcoEidinger%2FTLDExtractSwift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/MarcoEidinger/TLDExtractSwift) [![Swit Compatibility](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FMarcoEidinger%2FTLDExtractSwift%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/MarcoEidinger/TLDExtractSwift)
+[![Platform Compatibility](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FMarcoEidinger%2FTLDExtractSwift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/MarcoEidinger/TLDExtractSwift) [![Swit Compatibility](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FMarcoEidinger%2FTLDExtractSwift%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/MarcoEidinger/TLDExtractSwift) [![Code Coverage](https://codecov.io/gh/MarcoEidinger/TLDExtractSwift/branch/master/graph/badge.svg?token=XD7X6WPR6E)](https://codecov.io/gh/MarcoEidinger/TLDExtractSwift)
 
 # TLDExtract
 
