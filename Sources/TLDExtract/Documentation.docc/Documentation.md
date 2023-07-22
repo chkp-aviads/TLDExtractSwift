@@ -1,13 +1,27 @@
-# ````
+# ``TLDExtract``
 
-<!--@START_MENU_TOKEN@-->Summary<!--@END_MENU_TOKEN@-->
+Swift package to extract top level domain (TLD), second level domain, subdomain and root domain
 
 ## Overview
 
-<!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
+```swift
+import TLDExtract
+
+let extractor = TLDExtract()
+
+let urlString: String = "http://super.duper.domain.co.uk"
+guard let result: TLDResult = extractor.parse(urlString) else { return }
+
+print(result.rootDomain)        // Optional("domain.co.uk")
+print(result.topLevelDomain)    // Optional("co.uk")
+print(result.secondLevelDomain) // Optional("domain")
+print(result.subDomain)         // Optional("super.duper")
+```
 
 ## Topics
 
-### <!--@START_MENU_TOKEN@-->Group<!--@END_MENU_TOKEN@-->
+### Extracting
 
-- <!--@START_MENU_TOKEN@-->``Symbol``<!--@END_MENU_TOKEN@-->
+- ``TLDExtract/TLDExtract``
+- ``TLDExtractable``
+- ``TLDResult``

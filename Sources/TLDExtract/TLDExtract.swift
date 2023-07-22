@@ -12,7 +12,7 @@ import FoundationNetworking
 #endif
 
 /**
- Extract root domain, top level domain (TLD), second level domain or subdomain from a `URL` or hostname `String`
+ Extract root domain, top level domain (TLD), second level domain or subdomain from a hostname
  
  ```swift
  import TLDExtract
@@ -29,7 +29,7 @@ import FoundationNetworking
  
  This is possible thanks to a bundled version of the [Public Suffix List](https://publicsuffix.org/)
 
- You can also fetch the most up-to-date PSL with async function ``fetchLatestPSL``
+ You can also fetch the most up-to-date PSL with async function ``fetchLatestPSL()``
  
  ```swift
  try await extractor.fetchLatestPSL()
@@ -39,6 +39,7 @@ public class TLDExtract {
 
     private var tldParser: TLDParser
 
+    /// Initializes the extractor with information from the bundled Public Suffix List.
     public init() {
         let url = Bundle.module.url(forResource: "public_suffix_list", withExtension: "dat")!
         let data: Data = try! Data(contentsOf: url)
@@ -46,7 +47,7 @@ public class TLDExtract {
         self.tldParser = TLDParser(dataSet: dataSet)
     }
     
-    /// invoke network request to fetch latest Public Suffix List (PSL) from a remote server ensuring that extractor operates most accurate
+    /// invoke network request to fetch latest [Public Suffix List](https://publicsuffix.org/list/public_suffix_list.dat) (PSL) from a remote server ensuring that extractor operates most accurate
     @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public func fetchLatestPSL() async throws {
         let url: URL = URL(string: "https://publicsuffix.org/list/public_suffix_list.dat")!
@@ -63,10 +64,12 @@ public class TLDExtract {
         self.tldParser = TLDParser(dataSet: dataSet)
     }
 
-    /// Parameters:
-    ///   - host: Hostname to be extracted
-    ///   - quick: If true, parse only normal data excluding exceptions and wildcards
-    public func parse<T: TLDExtractable>(_ input: T, quick: Bool = false) -> TLDResult? {
+    /// Parse a hostname to extract top-level domain and other properties
+    /// - Parameters:
+    ///   - input: type conforming to `TLDExtractable`
+    ///   - quick: option to speed up by parsing only normal data excluding exceptions and wildcards
+    /// - Returns: optional `TLDResult`
+    public func parse(_ input: TLDExtractable, quick: Bool = false) -> TLDResult? {
         guard let host: String = input.hostname else { return nil }
         if quick {
             return self.tldParser.parseNormals(host: host)
@@ -77,7 +80,11 @@ public class TLDExtract {
     }
 }
 
-/// `URL` and `String` conform to `TLDExtractable`
+/**
+ Types conforming to this protocol can be parsed with ``TLDExtract/TLDExtract``.
+ 
+ Swift Foundation types `URL` and `String` already conform to ``TLDExtractable``.
+*/
 public protocol TLDExtractable {
     var hostname: String? { get }
 }
@@ -127,6 +134,7 @@ fileprivate extension String {
     }
 }
 
+/// Returning type of  the parsing method from ``TLDExtract/TLDExtract``  method for accessing top-level domain and other properties.
 public struct TLDResult {
     public let rootDomain: String?
     public let topLevelDomain: String?
