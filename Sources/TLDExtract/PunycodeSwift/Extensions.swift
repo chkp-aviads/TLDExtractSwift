@@ -6,7 +6,7 @@
 import Foundation
 
 // For calling site convenience everything is implemented over Substring and String API is wrapped around it
-public extension Substring {
+internal extension Substring {
     /// Returns new string in punycode encoding (RFC 3492)
     ///
     /// - Returns: Punycode encoded string or nil if the string can't be encoded
@@ -36,7 +36,7 @@ public extension Substring {
     }
 }
 
-public extension String {
+internal extension String {
 
     /// Returns new string in punycode encoding (RFC 3492)
     ///
