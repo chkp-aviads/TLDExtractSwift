@@ -78,6 +78,16 @@ public class TLDExtract {
                    self.tldParser.parseNormals(host: host)
         }
     }
+    
+    fileprivate static let schemeRegex: NSRegularExpression = {
+        let schemePattern: String = "^(\\p{L}+:)?//"
+        return try! NSRegularExpression(pattern: schemePattern)
+    }()
+    
+    fileprivate static let hostRegex: NSRegularExpression = {
+        let hostPattern: String = "([0-9\\p{L}][0-9\\p{L}-]{1,61}\\.?)?   ([\\p{L}-]*  [0-9\\p{L}]+)  (?!.*:$).*$".replace(" ", "")
+        return try! NSRegularExpression(pattern: hostPattern)
+    }()
 }
 
 /**
@@ -107,14 +117,12 @@ extension URL: TLDExtractable {
 
 extension String: TLDExtractable {
     public var hostname: String? {
-        let schemePattern: String = "^(\\p{L}+:)?//"
-        let hostPattern: String = "([0-9\\p{L}][0-9\\p{L}-]{1,61}\\.?)?   ([\\p{L}-]*  [0-9\\p{L}]+)  (?!.*:$).*$".replace(" ", "")
-        if self.matches(schemePattern) {
-            let components: [String] = self.replace(schemePattern, "").components(separatedBy: "/")
+        if self.matches(TLDExtract.schemeRegex) {
+            let components: [String] = self.replace(TLDExtract.schemeRegex, "").components(separatedBy: "/")
             guard let component: String = components.first, !component.isEmpty else { return nil }
             return component
-        } else if self.matches("^\(hostPattern)") {
-            let components: [String] = self.replace(schemePattern, "").components(separatedBy: "/")
+        } else if self.matches(TLDExtract.hostRegex, options: .anchored) {
+            let components: [String] = self.replace(TLDExtract.schemeRegex, "").components(separatedBy: "/")
             guard let component: String = components.first, !component.isEmpty else { return nil }
             return component
         } else {
@@ -126,11 +134,28 @@ extension String: TLDExtractable {
 fileprivate extension String {
     func matches(_ pattern: String) -> Bool {
         guard let regex: NSRegularExpression = try? NSRegularExpression(pattern: pattern) else { return false }
-        return regex.matches(in: self, range: NSRange(location: 0, length: self.count)).count > 0
+        return matches(regex)
+    }
+    
+    func matches(_ regex: NSRegularExpression, options: NSRegularExpression.MatchingOptions = []) -> Bool {
+        return regex.matches(in: self, options: options, range: NSRange(location: 0, length: self.count)).count > 0
     }
 
     func replace(_ pattern: String, _ replacement: String) -> String {
         return self.replacingOccurrences(of: pattern, with: replacement, options: .regularExpression)
+    }
+    
+    func replace(_ regex: NSRegularExpression, _ replacement: String) -> String {
+        // Define the range of the string to be searched
+        let range = NSRange(self.startIndex..<self.endIndex, in: self)
+        
+        // Perform the replacement
+        return regex.stringByReplacingMatches(
+            in: self,
+            options: [],
+            range: range,
+            withTemplate: replacement
+        )
     }
 }
 
